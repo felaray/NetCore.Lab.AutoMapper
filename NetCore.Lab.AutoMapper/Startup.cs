@@ -35,22 +35,27 @@ namespace NetCore.Lab.AutoMapper
             services.AddSwaggerGen();
             services.ConfigureSwaggerGen(options =>
             {
-                //your custom configuration goes here
-                // UseFullTypeNameInSchemaIds replacement for .NET Core
+                //解決重名導致無法產生swagger文件的問題
                 options.CustomSchemaIds(x => x.FullName);
             });
 
+            //資料庫存放在記憶體
             services
                 .AddDbContext<NetCoreLabAutoMapperContext>(options =>
                            //options.UseSqlServer(Configuration.GetConnectionString("NetCoreLabAutoMapperContext"))
                            options.UseInMemoryDatabase(databaseName: "Test")
                     );
 
+            //使用Add AutoMapper DI
             services.AddAutoMapper((serviceProvider, automapper) =>
             {
+                //using AutoMapper.EquivalencyExpression;
                 automapper.AddCollectionMappers();
                 automapper.UseEntityFrameworkCoreModel<NetCoreLabAutoMapperContext>(serviceProvider);
-            }, AppDomain.CurrentDomain.GetAssemblies());
+            },
+                //全專案
+                AppDomain.CurrentDomain.GetAssemblies()
+            );
 
         }
 
