@@ -51,17 +51,20 @@ namespace NetCore.Lab.AutoMapper.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodo(Guid id, Todo todo)
+        public async Task<IActionResult> PutTodo(Guid id, UpdateTodoViewModel.Request todo)
         {
             if (id != todo.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(todo).State = EntityState.Modified;
+            var data = _mapper.Map<Todo>(todo);
+            _context.Entry(data).State = EntityState.Modified;
 
             try
             {
+                _context.Todo.Persist(_mapper).InsertOrUpdate(todo);
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

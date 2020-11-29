@@ -33,6 +33,12 @@ namespace NetCore.Lab.AutoMapper
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                //your custom configuration goes here
+                // UseFullTypeNameInSchemaIds replacement for .NET Core
+                options.CustomSchemaIds(x => x.FullName);
+            });
 
             services
                 .AddDbContext<NetCoreLabAutoMapperContext>(options =>
