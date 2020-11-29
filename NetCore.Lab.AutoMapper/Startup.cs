@@ -10,6 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NetCore.Lab.AutoMapper.Data;
+using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 
 namespace NetCore.Lab.AutoMapper
 {
@@ -29,6 +33,19 @@ namespace NetCore.Lab.AutoMapper
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
+
+            services
+                .AddDbContext<NetCoreLabAutoMapperContext>(options =>
+                           //options.UseSqlServer(Configuration.GetConnectionString("NetCoreLabAutoMapperContext"))
+                           options.UseInMemoryDatabase(databaseName: "Test")
+                    );
+
+            services.AddAutoMapper((serviceProvider, automapper) =>
+            {
+                automapper.AddCollectionMappers();
+                automapper.UseEntityFrameworkCoreModel<NetCoreLabAutoMapperContext>(serviceProvider);
+            }, AppDomain.CurrentDomain.GetAssemblies());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
