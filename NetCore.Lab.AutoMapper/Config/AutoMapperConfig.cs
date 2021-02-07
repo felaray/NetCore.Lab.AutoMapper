@@ -15,7 +15,8 @@ namespace NetCore.Lab.AutoMapper.Config
 
 
             CreateMap<TodoViewModel, Todo>(MemberList.Source);
-
+            CreateMap<UserViewModel, User>(MemberList.Source);
+            //CreateMap<List<TodoViewModel>, List<Todo>>(MemberList.Source);
         }
     }
 }

@@ -15,5 +15,7 @@ namespace NetCore.Lab.AutoMapper.Data
         }
 
         public DbSet<NetCore.Lab.AutoMapper.Models.Todo> Todo { get; set; }
+
+        public DbSet<NetCore.Lab.AutoMapper.Models.User> User { get; set; }
     }
 }
