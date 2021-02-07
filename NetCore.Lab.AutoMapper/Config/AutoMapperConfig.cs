@@ -14,13 +14,7 @@ namespace NetCore.Lab.AutoMapper.Config
         {
 
 
-            CreateMap<CreateTodoViewModel, object>(MemberList.Source);
-            CreateMap<CreateTodoViewModel.Request, Todo>(MemberList.Source);
-            //or
-            CreateMap<CreateTodoViewModelV2, Todo>(MemberList.Source);
-
-            CreateMap<UpdateTodoViewModel, object>(MemberList.Source);
-            CreateMap<UpdateTodoViewModel.Request, Todo>(MemberList.Source);
+            CreateMap<TodoViewModel, Todo>(MemberList.Source);
 
         }
     }
