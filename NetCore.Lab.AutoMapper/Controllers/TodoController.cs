@@ -51,7 +51,7 @@ namespace NetCore.Lab.AutoMapper.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodo(Guid id, UpdateTodoViewModel.Request todo)
+        public async Task<IActionResult> PutTodo(Guid id, TodoViewModel todo)
         {
             if (id != todo.Id)
             {
@@ -86,7 +86,7 @@ namespace NetCore.Lab.AutoMapper.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Todo>> PostTodo(CreateTodoViewModel.Request todo)
+        public async Task<ActionResult<Todo>> PostTodo(TodoViewModel todo)
         {
 
             var data = _mapper.Map<Todo>(todo);
