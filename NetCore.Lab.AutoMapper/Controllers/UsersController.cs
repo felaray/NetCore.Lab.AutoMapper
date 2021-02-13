@@ -29,26 +29,42 @@ namespace NetCore.Lab.AutoMapper.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<User>> GetUser()
+        public async Task<ActionResult<List<User>>> GetUser()
         {
-            return await _context.User.Include(c => c.Todos).FirstOrDefaultAsync();
+            return await _context.User.Include(c => c.Todos).ToListAsync();
         }
 
 
         //TODO:希望更新的時候也可以找出要刪除的目標
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(UserViewModel user)
+        public async Task<IActionResult> PostUser(UserViewModel user)
         {
-            //var data = await _context.User.Include(c => c.Todos).SingleOrDefaultAsync(c => c.Id == user.Id);
-            //if (data != null)
-            //    _context.Entry(data).State = EntityState.Modified;
 
-            _context.User.Persist(_mapper).InsertOrUpdate(user);
-            //_context.User.Persist(_mapper).InsertOrUpdate(user);
-            //_context.User.Persist(_mapper).Remove(user);
+            var result = _context.User.Persist(_mapper).InsertOrUpdate(user);
+
+            var trace = _context.ChangeTracker.Entries();
+            foreach (var item in trace)
+            {
+
+                switch (item.State)
+                {
+                    case EntityState.Modified:
+                        break;
+                    case EntityState.Added:
+                        break;
+                    case EntityState.Unchanged:
+                        break;
+                    case EntityState.Deleted:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return Ok(result);
         }
 
         // DELETE: api/Users/5
