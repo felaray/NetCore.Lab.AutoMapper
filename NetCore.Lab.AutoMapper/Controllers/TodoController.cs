@@ -82,6 +82,36 @@ namespace NetCore.Lab.AutoMapper.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// update list
+        /// </summary>
+        /// <param name="todo"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> PutTodoList(List<UpdateTodoViewModel.Request> todo)
+        {
+
+            var data = _mapper.Map<List<Todo>>(todo);
+            //_context.Entry(data).State = EntityState.Modified;
+
+            try
+            {
+                foreach (var item in todo)
+                {
+                    _context.Todo.Persist(_mapper).InsertOrUpdate(item);
+                }
+
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Todoes
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
